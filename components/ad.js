@@ -28,26 +28,28 @@ class Ad extends HTMLElement {
     //Just banner 1
     const selectedBanner = this.banners[1];
 
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+    const imgSrc = isDesktop ? selectedBanner.desktop : selectedBanner.mobile;
+    const imgWidth = isDesktop ? 1000 : 320;
+    const imgHeight = isDesktop ? 75 : 100;
+
     this.innerHTML = `
       <div class="container text-center my-3 mb-4" id="sp-content">
         <a href="${selectedBanner.link}" 
            title="${selectedBanner.title}" 
            target="_blank" 
-           referrer="noopener">
-          <img class="border-1 border-dark img-fluid d-none d-md-inline-block rounded-3" 
-               alt='${selectedBanner.alt}' 
-               src="${selectedBanner.desktop}" 
-               width='1000' 
-               height='75'/>
-          <img class="border-1 border-dark img-fluid d-md-none rounded-3" 
+           rel="noopener">
+          <img class="border-1 border-dark img-fluid rounded-3" 
                alt="${selectedBanner.alt}" 
-               src="${selectedBanner.mobile}" 
-               width='320' 
-               height='100'/>
+               src="${imgSrc}" 
+               width="${imgWidth}" 
+               height="${imgHeight}"
+               fetchpriority="high"
+               decoding="async" />
         </a>
         <div class="d-flex justify-content-center align-items-center">
           <p class="small mb-0">Sponsored Content</p>
-          <button type="button" class="btn-close ms-2" aria-label="Close" title="Click to dimiss"></button>
+          <button type="button" class="btn-close ms-2" aria-label="Close" title="Click to dismiss"></button>
         </div>
       </div>
     `;

@@ -47,8 +47,8 @@
 }
 
 [data-bs-theme=dark] body {
-  background-color: #070a12;
-  background-image: radial-gradient(ellipse 80% 50% at 50% 0%, #1e293b 0%, #070a12 100%);
+  background-color: #0f172a;
+  background-image: radial-gradient(ellipse 80% 50% at 50% 0%, #1e293b 0%, #0f172a 100%);
   background-size: 100% 1000px;
   background-repeat: no-repeat;
   background-attachment: scroll;

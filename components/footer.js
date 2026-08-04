@@ -7,7 +7,7 @@ footerTemplate.innerHTML = `
         <div class="row grid gap-3">
             <div class="col-md-3">
                 <p class="text-muted">Project</p>
-                <p class="fw-semibold"><a href="donate" class='footer-link text-decoration-none' title="About us">About us</a></p>
+                <p class="fw-semibold"><a href="about" class='footer-link text-decoration-none' title="About us">About us</a></p>
                 <p class="fw-semibold"><a href="terms-of-service" class='footer-link text-decoration-none' title="Terms of Service">Terms of Service</a></p>
                 <p class="text-muted small my-4">bitcoindata.science © ${new Date().getFullYear()}</p>
             </div>
@@ -20,7 +20,7 @@ footerTemplate.innerHTML = `
                 <p class="text-muted">Sponsor</p>
                 <a href="https://www.l0tt0.com/?utm_source=bitcoindata.science" class="footer-link text-decoration-none" target="_blank" referrer="noopener" title="Retro Crypto Casino" alt="Retro Crypto Casino">
                     <p class="footer-link fw-semibold mb-2">Retro Crypto Casino</p>
-                    <img src="/img/lotto-logo.svg" title="Retro Crypto Casino" alt="l0tt0.com" height="35" class="p-2 bg-l0tt0 rounded-2 px-4" style="background-color: #FBE24B;" />
+                    <img src="/img/lotto-logo.svg" title="Retro Crypto Casino" alt="l0tt0.com" width="132" height="35" class="p-2 bg-l0tt0 rounded-2 px-4" style="background-color: #FBE24B;" />
                 </a>
             </div>
         </div>
