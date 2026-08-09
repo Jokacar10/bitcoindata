@@ -609,6 +609,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Setup highlights for period select buttons
         setupPeriodButtons();
+
+        // Trigger window resize event on tab switch so ApexCharts resizes correctly
+        document.querySelectorAll('button[data-bs-toggle="tab"], button[data-bs-toggle="pill"]').forEach(tabEl => {
+            tabEl.addEventListener('shown.bs.tab', () => {
+                window.dispatchEvent(new Event('resize'));
+            });
+        });
     });
 });
 

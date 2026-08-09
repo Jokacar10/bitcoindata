@@ -608,3 +608,12 @@ input[type=number] {
 #projectionsTable tr {
   background-color: transparent !important;
 }
+/* chartTabs */
+#chartTabs .nav-link.active {
+  background-color: var(--bs-primary);
+  color: var(--bs-body-bg);
+}
+#chartTabs .nav-link {
+  color: var(--bs-primary);
+  font-weight: 600;
+}

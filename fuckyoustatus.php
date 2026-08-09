@@ -212,12 +212,12 @@
                <!-- Sub-tabs for chart types -->
                <ul class="nav nav-pills mb-3 justify-content-end" id="chartTabs" role="tablist">
                   <li class="nav-item" role="presentation">
-                     <button class="btn btn-primary btn-lg d-inline-flex align-items-center justify-content-center px-4 fs-6 me-2" id="price-tab" data-bs-toggle="pill" data-bs-target="#priceChartContainer" type="button" role="tab" aria-controls="priceChartContainer" aria-selected="true">
+                     <button class="nav-link active me-2" id="price-tab" data-bs-toggle="pill" data-bs-target="#priceChartContainer" type="button" role="tab" aria-controls="priceChartContainer" aria-selected="true">
                         Price Projection
                      </button>
                   </li>
                   <li class="nav-item" role="presentation">
-                     <button class="btn btn-secondary btn-lg d-inline-flex align-items-center justify-content-center px-4 fs-6" id="coins-tab" data-bs-toggle="pill" data-bs-target="#coinsChartContainer" type="button" role="tab" aria-controls="coinsChartContainer" aria-selected="false">
+                     <button class="nav-link" id="coins-tab" data-bs-toggle="pill" data-bs-target="#coinsChartContainer" type="button" role="tab" aria-controls="coinsChartContainer" aria-selected="false">
                         Coins Needed
                      </button>
                   </li>
