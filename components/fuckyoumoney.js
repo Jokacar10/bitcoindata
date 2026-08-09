@@ -128,7 +128,7 @@ function recalculate() {
     // FU Target Purchasing Power Values
     const target10 = annualBudget / 0.10;
     const target4 = annualBudget / 0.04;
-    const targetFR = annualBudget / 0.02;
+    const targetFR = 100_000_000; // Fixed $100M — independent of annual budget
 
     // Populate header cards using live prices
     if (latest200WMA > 0) {
@@ -142,16 +142,14 @@ function recalculate() {
             document.getElementById("todayFR").innerText = (targetFR / latest200WMA).toFixed(2) + " BTC";
         }
 
-        // Update target USD portfolio subtexts
+        // Update target USD portfolio subtexts (only FU10 and FU4 change with budget)
         if (document.getElementById("todayFU10Desc")) {
             document.getElementById("todayFU10Desc").innerText = "Target Portfolio: " + target10.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
         }
         if (document.getElementById("todayFU4Desc")) {
             document.getElementById("todayFU4Desc").innerText = "Target Portfolio: " + target4.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
         }
-        if (document.getElementById("todayFRDesc")) {
-            document.getElementById("todayFRDesc").innerText = "Target Portfolio: " + targetFR.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
-        }
+        // todayFRDesc stays fixed at $100M — no dynamic update needed
     }
 
     // Build timeline of dates
@@ -252,7 +250,8 @@ function recalculate() {
 
         let inflatedFU10 = target10 * Math.pow(1 + inflationRate / 100, yearsElapsed);
         let inflatedFU4 = target4 * Math.pow(1 + inflationRate / 100, yearsElapsed);
-        let inflatedFR = targetFR * Math.pow(1 + inflationRate / 100, yearsElapsed);
+        // Filthy-Rich: no inflation adjustment — fixed $100M target
+        let inflatedFR = targetFR;
 
         let coins10 = inflatedFU10 / wma;
         let coins4 = inflatedFU4 / wma;
@@ -286,7 +285,7 @@ function recalculate() {
     computedData.forEach((row, index) => {
         let dateStr = row.date.toLocaleDateString("en-US", { year: 'numeric', month: 'numeric', day: 'numeric' });
         let isFuture = (index > lastActualDateIndex);
-        let rowClass = isFuture ? "table-info-subtle font-monospace text-primary-emphasis" : "font-monospace";
+        let rowClass = isFuture ? "text-body-secondary" : "";
 
         let gainPercent = "—";
         if (isFuture && selectedModel === "jjg_cycle") {
@@ -304,14 +303,14 @@ function recalculate() {
 
         tableRowsHTML += `
             <tr class="${rowClass}">
-               <td>${dateStr} ${isFuture ? '<span class="badge bg-primary ms-1 small">Proj</span>' : ''}</td>
+               <td class="text-nowrap">${dateStr} ${isFuture ? '<span class="badge text-bg-primary bg-opacity-75 ms-1" style="font-size:.65em">Proj</span>' : ''}</td>
                <td>$${(row.spot).toFixed(2).toLocaleString()}</td>
                <td>$${(row.wma).toFixed(2).toLocaleString()}</td>
                <td>${gainPercent}</td>
                <td>${spotVs200Str}</td>
-               <td class="fw-bold text-success">${row.coins10.toFixed(2)} BTC</td>
-               <td class="fw-bold text-info">${row.coins4.toFixed(2)} BTC</td>
-               <td class="fw-bold text-purple" style="color: #6f42c1;">${row.coinsFR.toFixed(2)} BTC</td>
+               <td class="fw-semibold text-success">${row.coins10.toLocaleString("en-US", { maximumFractionDigits: 2 })} BTC</td>
+               <td class="fw-semibold text-info">${row.coins4.toLocaleString("en-US", { maximumFractionDigits: 2 })} BTC</td>
+               <td class="fw-semibold" style="color: #6f42c1;">${row.coinsFR.toLocaleString("en-US", { maximumFractionDigits: 2 })} BTC</td>
             </tr>
         `;
 
@@ -495,7 +494,7 @@ window.exportTableToCSV = function () {
     if (!window.currentCSVData) return;
 
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Date,Predicted Spot Price,Predicted 200WMA,Gain % / Time,Spot vs 200WMA,Coins Needed 10% FU,Coins Needed 4% FU,Coins Needed Filthy-Rich\n";
+    csvContent += "Date,Spot Price,200WMA,Gain % / Time,Spot vs 200WMA,Coins Needed 10% FU,Coins Needed 4% FU,Coins Needed Filthy-Rich\n";
 
     window.currentCSVData.forEach(row => {
         csvContent += row.join(",") + "\n";

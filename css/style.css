@@ -588,3 +588,23 @@ input[type=number] {
   font-weight: inherit;
   color: inherit;
 }
+
+/* TableFU FUStatus Table */
+
+#mainViewTabs .active {
+  background-color: var(--bs-tertiary-bg);
+  border-bottom: 1px solid transparent !important;
+  color: var(--bs-primary) !important;
+}
+
+#mainViewTabs .nav-item {
+  text-transform: uppercase !important;
+  font-size: small;
+  font-weight: 600;
+}
+
+#projectionsTable td,
+#projectionsTable th,
+#projectionsTable tr {
+  background-color: transparent !important;
+}
