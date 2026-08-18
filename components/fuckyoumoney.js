@@ -119,9 +119,14 @@ function recalculate() {
     if (prices.length === 0 || sma200.length === 0) return;
 
     // Inputs
-    const annualBudget = parseFloat(document.getElementById("annualBudget").value) || 80000;
-    const inflationRate = parseFloat(document.getElementById("inflationRate").value) || 3.0;
-    const horizonYears = parseInt(document.getElementById("horizonYears").value) || 15;
+    const rawBudget = parseFloat(document.getElementById("annualBudget").value);
+    const annualBudget = isNaN(rawBudget) || rawBudget <= 0 ? 80000 : rawBudget;
+
+    const rawInflation = parseFloat(document.getElementById("inflationRate").value);
+    const inflationRate = isNaN(rawInflation) ? 3.0 : rawInflation;
+
+    const rawHorizon = parseInt(document.getElementById("horizonYears").value, 10);
+    const horizonYears = isNaN(rawHorizon) || rawHorizon < 1 ? 15 : rawHorizon;
     const selectedModel = document.getElementById("modelSelect").value;
     const spotPremiumSelect = document.getElementById("spotPremiumSelect").value;
 
@@ -250,8 +255,7 @@ function recalculate() {
 
         let inflatedFU10 = target10 * Math.pow(1 + inflationRate / 100, yearsElapsed);
         let inflatedFU4 = target4 * Math.pow(1 + inflationRate / 100, yearsElapsed);
-        // Filthy-Rich: no inflation adjustment — fixed $100M target
-        let inflatedFR = targetFR;
+        let inflatedFR = targetFR * Math.pow(1 + inflationRate / 100, yearsElapsed);
 
         let coins10 = inflatedFU10 / wma;
         let coins4 = inflatedFU4 / wma;
@@ -459,6 +463,7 @@ function updateCoinsChart(fu10, fu4, fr) {
         yaxis: {
             logarithmic: true,
             forceNiceScale: true,
+            min: 0.1,
             labels: {
                 style: { colors: isDark ? '#adb5bd' : '#495057' },
                 formatter: function (val) {

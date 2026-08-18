@@ -11,19 +11,19 @@
    ?>
    <script type="application/ld+json">
       {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Fuck You Status Calculator",
-        "description": "Calculate the amount of bitcoin needed to reach 'Fuck You Status' with inflation adjustments and regression models.",
-        "alternateName": [
-          "bitcoindata.science",
-          "Bitcoin Data Science"
-        ],
-        "url": "https://bitcoindata.science",
-        "logo": "https://bitcoindata.science/img/logo.svg",
-        "sameAs": [
-          "https://bitcoindata.science"
-        ]
+         "@context": "https://schema.org",
+         "@type": "Organization",
+         "name": "Fuck You Status Calculator",
+         "description": "Calculate the amount of bitcoin needed to reach 'Fuck You Status' with inflation adjustments and regression models.",
+         "alternateName": [
+            "bitcoindata.science",
+            "Bitcoin Data Science"
+         ],
+         "url": "https://bitcoindata.science",
+         "logo": "https://bitcoindata.science/img/logo.svg",
+         "sameAs": [
+            "https://bitcoindata.science"
+         ]
       }
    </script>
    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -55,50 +55,37 @@
          class="btn btn-link p-0 ms-1 align-baseline text-decoration-none fw-semibold link-offset-2 text-primary small"
          type="button" data-bs-toggle="collapse" data-bs-target="#firstPReadMore" aria-expanded="false"
          aria-controls="firstPReadMore" id="readMoreBtn">Read more &darr;</button>
-      <span class="collapse" id="firstPReadMore">
-         <span class="d-block mt-2">
+   </p>
+   <div class="collapse" id="firstPReadMore">
+      <div class="pt-2 d-flex flex-column gap-2">
+         <p class="m-0">
             Accordingly, the tool allows you to see how many bitcoin you would have needed to have historically for each
             of those wealth levels (or for your own inputted target levels), and then it also shows you how many bitcoin
             you need to reach financial independence at each of those levels within the coming years or for you to
             customize your own target annual budget level and you can project out up to 60 years.
-         </span>
-         <span class="d-block mt-2">
+         </p>
+         <p class="m-0">
             The tool also helps you to determine the Bitcoin stash required to fund your life, taking into account
             inflation, withdrawal rates, and to change the variables for the 4% and 10% projections with 3 options of
             long-term price prediction models and two options on presumptions of how the BTC spot price compares with
             the 200-WMA - with a cycling premium or a flat line 30% premium.
-         </span>
-         <span class="d-block mt-2">
+         </p>
+         <p class="m-0">
             If you want to dive specifically into time-based sustainable withdrawal projections, you can go to the
             <a href="withdrawal-strategy" title="JJG Sustainable Withdrawal Strategy" class="fw-semibold">JJG
                Sustainable Withdrawal Strategy</a> tool to look at historical projected withdrawal outcomes and to
             also look at current recommended withdrawal rates based on both BTC stash size and how conservative,
             moderate or aggressive you want to be with your withdrawal projections.
-         </span>
-      </span>
-   </p>
-   <script>
-      document.addEventListener('DOMContentLoaded', () => {
-         const readMoreEl = document.getElementById('firstPReadMore');
-         const readMoreBtn = document.getElementById('readMoreBtn');
-         if (readMoreEl && readMoreBtn) {
-            readMoreEl.addEventListener('show.bs.collapse', () => {
-               readMoreBtn.innerHTML = 'Read less &uarr;';
-            });
-            readMoreEl.addEventListener('hide.bs.collapse', () => {
-               readMoreBtn.innerHTML = 'Read more &darr;';
-            });
-         }
-      });
-   </script>
+         </p>
+      </div>
+   </div>
 
    <!-- Summary Cards for Today (rendered by JS) -->
    <p class="section-label mt-5 mb-3">Today's Overview</p>
    <div id="summary-cards" class="row row-cols-1 row-cols-lg-4 row-cols-md-2 g-4 pt-lg-3 pb-lg-2"></div>
 
    <script>
-      const SUMMARY_CARDS = [
-         {
+      const SUMMARY_CARDS = [{
             label: 'Bitcoin Price',
             valueId: 'liveSpotPrice',
             color: 'text-body',
@@ -112,6 +99,7 @@
             label: '10% Withdrawal Rate',
             valueId: 'todayFU10',
             color: 'text-success',
+            tooltip: 'JJG proposes as bitcoin sustainable',
             footer: {
                label: 'Target Portfolio: $800,000',
                labelId: 'todayFU10Desc',
@@ -122,6 +110,7 @@
             label: '4% Withdrawal Rate',
             valueId: 'todayFU4',
             color: 'text-info',
+            tooltip: 'Recommended level for traditional assets',
             footer: {
                label: 'Target Portfolio: $2,000,000',
                labelId: 'todayFU4Desc',
@@ -143,6 +132,14 @@
       document.getElementById('summary-cards').innerHTML = SUMMARY_CARDS.map(card => {
          const spinner = `<span class="spinner-border spinner-border-sm" role="status"></span>`;
 
+         const tooltipHtml = card.tooltip ? `
+            <span role="button" class="text-secondary text-lowercase fw-normal ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="${card.tooltip}">
+               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-info-circle align-baseline" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+               </svg>
+            </span>` : '';
+
          const footerInner = `<div class="card-text text-muted mb-1 small" id="${card.footer.labelId}">${card.footer.label}</div>
                <span class="small text-secondary">${card.footer.sub}</span>`;
 
@@ -151,7 +148,7 @@
                <div class="card bg-body-tertiary shadow-sm h-100 rounded-4">
                   <div class="card-body d-flex flex-column justify-content-between">
                      <div>
-                        <div class="card-text text-muted mb-2 small text-uppercase fw-bold">${card.label}</div>
+                        <div class="card-text text-muted mb-2 small text-uppercase fw-bold">${card.label}${tooltipHtml}</div>
                         <h5 class="card-title display-6 fw-semibold" id="${card.valueId}">${spinner}</h5>
                      </div>
                      <div class="mt-3 pt-3 border-top">${footerInner}</div>
@@ -159,12 +156,24 @@
                </div>
             </div>`;
       }).join('');
+
+      const initTooltips = () => {
+         if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            [...tooltipTriggerList].forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+         }
+      };
+      if (document.readyState === 'loading') {
+         document.addEventListener('DOMContentLoaded', initTooltips);
+      } else {
+         initTooltips();
+      }
    </script>
 
    <!-- Controls and Output Area -->
    <div class="row mx-0 mt-4 mb-5 g-4">
       <!-- Input Sidebar -->
-      <div class="col-lg-4 pe-lg-4 px-0">
+      <div class="col-lg-3 pe-lg-4 px-0 col-md-12">
          <div class="bg-body-tertiary rounded-4 p-4 shadow-sm">
             <h4 class="h5 mb-4 section-label">Calculation Controls</h4>
 
@@ -189,7 +198,7 @@
                      value="3.0" min="0" max="25" step="0.1">
                   <span class="input-group-text bg-body-secondary border-0">%</span>
                </div>
-               <input type="range" class="form-range" id="inflationRateRange" min="0" max="15" step="0.1" value="3.0">
+               <input type="range" class="form-range" id="inflationRateRange" min="0" max="25" step="0.1" value="3.0">
                <div class="form-text small">Inflation will increase your required USD target over time.</div>
             </div>
 
@@ -201,7 +210,7 @@
                      value="15" min="10" max="60" step="1">
                   <span class="input-group-text bg-body-secondary border-0">Years</span>
                </div>
-               <input type="range" class="form-range" id="horizonYearsRange" min="10" max="60" step="1" value="10">
+               <input type="range" class="form-range" id="horizonYearsRange" min="10" max="60" step="1" value="15">
                <div class="form-text small">Extend predictions between 10 and 60 years.</div>
             </div>
 
@@ -229,21 +238,21 @@
       </div>
 
       <!-- Main Content: Tabbed Charts + Table -->
-      <div class="col-lg-8">
+      <div class="col-lg-9 col-md-12">
          <!-- Tabbed Navigation: Charts / Table -->
          <ul class="nav nav-tabs mb-0" id="mainViewTabs" role="tablist">
             <li class="nav-item" role="presentation">
-               <button class="nav-link active text-body" id="charts-view-tab" data-bs-toggle="tab"
-                  data-bs-target="#chartsViewPane" type="button" role="tab" aria-controls="chartsViewPane"
+               <button class="nav-link text-body active" id="table-view-tab" data-bs-toggle="tab"
+                  data-bs-target="#tableViewPane" type="button" role="tab" aria-controls="tableViewPane"
                   aria-selected="true">
-                  CHARTS
+                  DATA TABLE
                </button>
             </li>
             <li class="nav-item" role="presentation">
-               <button class="nav-link text-body" id="table-view-tab" data-bs-toggle="tab"
-                  data-bs-target="#tableViewPane" type="button" role="tab" aria-controls="tableViewPane"
+               <button class="nav-link text-body" id="charts-view-tab" data-bs-toggle="tab"
+                  data-bs-target="#chartsViewPane" type="button" role="tab" aria-controls="chartsViewPane"
                   aria-selected="false">
-                  DATA TABLE
+                  CHARTS
                </button>
             </li>
             <li class="ms-auto d-flex align-items-end">
@@ -262,7 +271,7 @@
 
          <div class="tab-content bg-body-tertiary rounded-bottom-4 shadow-sm p-4 border-top-0" id="mainViewTabsContent">
             <!-- Charts Tab Pane -->
-            <div class="tab-pane fade show active" id="chartsViewPane" role="tabpanel"
+            <div class="tab-pane fade " id="chartsViewPane" role="tabpanel"
                aria-labelledby="charts-view-tab">
                <!-- Sub-tabs for chart types -->
                <ul class="nav nav-pills mb-3 justify-content-end" id="chartTabs" role="tablist">
@@ -320,7 +329,7 @@
             </div>
 
             <!-- Data Table Tab Pane -->
-            <div class="tab-pane fade" id="tableViewPane" role="tabpanel" aria-labelledby="table-view-tab">
+            <div class="tab-pane show active" id="tableViewPane" role="tabpanel" aria-labelledby="table-view-tab">
                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
                   <div>
                      <h4 class="section-label mb-1">Semi-Annual Projection Data</h4>
@@ -364,35 +373,34 @@
 
       <div class="row g-4 g-lg-5 mb-4">
          <div class="col-lg-6">
-            <h2 class="h5 fw-bold mb-3">What is <span class="text-secondary">"Fuck You Status"?</span></h2>
+            <h2 class="h5 fw-bold mb-3">What is <span class="text-muted">"Fuck You Status"?</span></h2>
             <p class="mb-3">
-               In personal finance, "Fuck You Status" is reaching a wealth status in which you are able to live
-               comfortably at your targeted income level without being dependent on employment or external funding.
-            <div class="text-muted">This level is within the election of the bitcoiner. The amount could be replacing
-               some portion of your current income level, or it could be replacing your actual income level or multiples
-               of your current income level or it could be some other self-chosen income level that you would like to
-               reach so that you don't have to work any more or rely on external funding and perhaps you would like to
-               live a certain higher standard of living as compared with your current one.</div>
+               In personal finance, "Fuck You Status" is reaching a wealth status in which you are able to live comfortably at your targeted income level without being dependent on employment or external funding.
             </p>
-            <p>
-               By incorporating the <strong>200-week moving average (200WMA)</strong> as a valuation anchor, we insulate
-               our assets from Bitcoin's high volatility. Because the 200WMA has historically acted as a reliable
-               macro-cycle bottom, drawing withdrawals against the 200WMA valuation provides a highly sustainable
-               long-term budget.
+            <p class="mb-3">
+               In bitcoin, we can attempt to calculate what we believe to be our fuck you status level in a way that we are able to either completely discontinue working or alternatively we could calculate a level of income that we would like to get from our bitcoin in order to supplement any other income that we might have.
+            </p>
+            <p class="mb-3">
+               The amount could be replacing some portion of your current income level, or it could be replacing your actual income level or multiples of your current income level or it could be some other self-chosen income level that you would like to reach so that you don't have to work any more or rely on external funding and perhaps you would like to live a certain standard of living that is higher than your current one.
+            </p>
+            <p class="mb-3">
+               By incorporating the <strong>200-week moving average (200WMA)</strong> as a valuation anchor, we attempt to take our valuation out of the noice of Bitcoin's seemingly inevitable high volatility. Because the 200WMA has historically acted as a relatively reliable macro-cycle bottom, drawing withdrawals (and valuating BTC holdings) against the 200WMA seems to provide greater potential for sustainable long-term budgeting and planning.
             </p>
          </div>
 
          <div class="col-lg-6">
             <h5 class="h5 fw-bold mb-3">Inflation and Purchasing Power</h5>
             <p>
-               If you require a $80,000 budget in today's dollars, a constant 3.0% annual inflation rate means that in
-               10 years, you will need <strong>$107,513</strong> nominal dollars, and in 20 years, you will need
-               <strong>$144,489</strong> nominal dollars to purchase the same goods.
+               Since we use $80k per year as a default reference income point, we like to consider how many BTC a bitcoiner might need in order to support such income level at any time, and of course, you can adjust the annual dollar amount that you feel that you might want/need.
             </p>
             <p>
-               This tool adjusts your required nominal portfolios dynamically. Consequently, if Bitcoin's price
-               appreciation outpaces inflation, the absolute number of Bitcoins you need to hold decreases dramatically
-               over time.
+               For example, if you require a <strong>$80,000 annual budget</strong> in today's dollars, a constant 3.0% annual inflation rate means that in 10 years, you will need <strong>$107,513</strong> in nominal dollars for that year, and in 20 years, you will need $144,489 nominal dollars in that year to purchase the same goods/services in that year.
+            </p>
+            <p>
+               In accordance with the example, if we are presuming an ability to continue to live at the same standard of living and we are desiring to not deplete our bitcoin holdings, then our bitcoin would need to appreciate on average at least at the same rate that we are withdrawing value from it in order to continue to be able to sustain an adequate amount of income in subsequent years. Accordingly, when we are going through sustainable withdrawal, our goal is to not deplete our bitcoin faster than it is appreciating, even though at any time, we could decide to take ourselves out of sustainable withdrawal and to deplete our bitcoin holdings at a rate that is no longer sustainable.
+            </p>
+            <p>
+               This tool adjusts your required nominal portfolios dynamically. Consequently, if Bitcoin's price appreciation outpaces inflation, the absolute number of Bitcoins you need to hold decreases dramatically over time.
             </p>
          </div>
       </div>
@@ -407,39 +415,29 @@
          <div class="col-lg-6">
             <h2 class="h5 fw-bold mb-3">200WMA <span class="text-secondary">Semi-Annual Compounding</span></h2>
             <p>
-               The 200-week moving average (200WMA) is projected forward using a <strong>semi-annual
-                  compounding</strong> model. Starting from the last known historical 200WMA value, each 6-month period
-               applies a percentage gain:
+               The 200-week moving average (200WMA) <strong>and the BTC Spot price</strong> is projected forward using a semi-annual compounding model. Starting from the last known historical 200WMA value, each 6-month period applies a percentage gain:
             </p>
             <div class="bg-body-secondary rounded-3 p-3 font-monospace small mb-3">
                WMA<sub>n+1</sub> = WMA<sub>n</sub> &times; (1 + g<sub>n</sub> / 100)
             </div>
             <p>
-               where <strong>g<sub>n</sub></strong> is the gain for the <em>n</em>-th semi-annual period. These gains
-               are derived from a lookup table that reflects Bitcoin's <strong>halving-cycle dynamics</strong> — the
-               pattern of accelerating growth in the first half of each ~4-year cycle followed by decelerating growth in
-               the second half.
+               where gn is the gain for the n-th semi-annual period. These gains are derived from a lookup table (<strong>from the %Gain/Time values in the table</strong>) that reflects <strong>JJG projections</strong> of Bitcoin's halving-cycle dynamics — the pattern of accelerating growth in the first half of each ~4-year cycle followed by decelerating growth in the second half.
             </p>
          </div>
 
          <div class="col-lg-6">
             <h2 class="h5 fw-bold mb-3">Halving <span class="text-secondary">Cycle Structure</span></h2>
             <p>
-               Each halving cycle spans <strong>8 semi-annual periods</strong> (~4 years). The gain table encodes this
-               pattern: the first 4 periods carry higher growth (bullish phase), while the last 4 carry lower growth
-               (consolidation phase). Across successive cycles, peak gains diminish — reflecting the empirical
-               observation that each cycle's returns moderate as Bitcoin's market capitalization grows.
+               Each halving cycle spans 8 semi-annual periods (~4 years). The gain table encodes this pattern: the first 4 periods carry higher growth (bullish phase), while the last 4 carry lower growth (consolidation phase). Across successive cycles, peak gains diminish — reflecting the empirical observation that each cycle's returns moderate as Bitcoin's market capitalization grows.
             </p>
             <p>
-               Beyond the explicitly defined cycles (past 2039), gains are extrapolated by applying a <strong>20% decay
-                  factor per cycle</strong> to the last known cycle's values:
+               Beyond the explicitly defined cycles (past 2039), gains are extrapolated by applying a 20% decay factor per cycle to the last known cycle's values:
             </p>
             <div class="bg-body-secondary rounded-3 p-3 font-monospace small mb-3">
                g<sub>future</sub> = g<sub>base</sub> &times; 0.8<sup>(cycle − 3)</sup>
             </div>
             <p class="text-muted small">
-               This ensures the model remains bounded and converges toward slower growth over very long horizons,
-               consistent with eventual market maturation.
+               This ensures the model remains bounded and converges toward slower growth over very long horizons, consistent with eventual market maturation.
             </p>
          </div>
       </div>
@@ -447,8 +445,7 @@
       <div class="row g-4 g-lg-5 mb-4">
          <div class="col-lg-6">
             <h2 class="h5 fw-bold mb-3">Three <span class="text-secondary">Model Variants</span></h2>
-            <p>The tool offers three prediction models, each applying a different scaling factor to the base JJG gain
-               table:</p>
+            <p>The tool offers three prediction models, each applying a different scaling factor to the base JJG gain table:</p>
             <table class="table table-sm table-borderless small mb-3">
                <thead>
                   <tr class="border-bottom">
@@ -523,8 +520,7 @@
                time — this is the core insight of the model.
             </p>
             <p class="text-muted small mb-0">
-               <strong>Filthy-Rich status</strong> is an exception: it uses a fixed $100,000,000 target regardless of
-               the annual budget or inflation settings, representing a static ultra-high-net-worth benchmark.
+               <strong>Filthy-Rich status</strong> uses a $100,000,000 baseline target adjusted for inflation over time, representing an ultra-high-net-worth purchasing power benchmark.
             </p>
          </div>
       </div>
@@ -536,7 +532,7 @@
 
    <script>
       // Listen for theme mutations to update ApexCharts colors
-      var callback = function (mutationsList, observer) {
+      var callback = function(mutationsList, observer) {
          // Look through all mutations that just occured
          for (let mutation of mutationsList) {
             // If the `data-bs-theme` attribute was modified
@@ -546,7 +542,10 @@
          }
       };
       var observer = new MutationObserver(callback);
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-bs-theme'] });
+      observer.observe(document.documentElement, {
+         attributes: true,
+         attributeFilter: ['data-bs-theme']
+      });
    </script>
 </body>
 
