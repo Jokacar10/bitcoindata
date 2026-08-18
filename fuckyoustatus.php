@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-   <?php 
+   <?php
    $title = "Bitcoin Fuck You Status Calculator - bitcoin data.science";
    $description = "Calculate the amount of bitcoin needed to reach financial independence and 'Fuck You Status' under different regression models and inflation rates.";
    $keywords = "Bitcoin, Fuck You Status, Fuck you money, Regression, Power Law, Moving Average, 200 Weeks, Inflation, Financial Independence";
@@ -26,8 +26,8 @@
         ]
       }
    </script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="components/fuckyoumoney.js" defer></script>
+   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   <script src="components/fuckyoumoney.js" defer></script>
 </head>
 
 <body>
@@ -35,20 +35,62 @@
    <header>
       <navbar-component></navbar-component>
    </header>
-   
+
    <!-- Page Content -->
    <?php
-   $h1 = 'Fuck You Status';
-   $h2 = 'Calculate how much Bitcoin you need to reach financial independence over the next 10-20 years.
-   <span class="small"><a href="https://bitcointalk.org/index.php?topic=5475347.msg63213914#msg63213914"
-               class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover small fw-semibold"
-               title="Reference">by JayJuanGee (JJG)</a> </span>';
+   $h1 = 'JJG Fuck You Status';
+   $h2 = 'Calculate how much Bitcoin you need to reach financial independence. 
+      <span class="small"><a href="https://bitcointalk.org/index.php?topic=5376945.msg58719591#msg58719591"
+            class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover small fw-semibold"
+            title="Reference">by JayJuanGee (JJG)</a> </span>';
    include_once $_SERVER['DOCUMENT_ROOT'] . '/components/page-header.php';
    ?>
 
    <p class="mb-4">
-      Determine the Bitcoin stash required to fund your life, taking into account inflation, withdrawal rates, and long-term price prediction models.
+      This tool shows you historical quantities of bitcoin needed to attain certain example wealth target levels, which
+      we use $800k, $2 million and $100 million as three example wealth target levels. The $800k (at 10%) and the $2
+      million (at 4%) targets presume an $80k per year income level, yet they can be custom-tailored to your own annual
+      budget target level.
+      <button
+         class="btn btn-link p-0 ms-1 align-baseline text-decoration-none fw-semibold link-offset-2 text-primary small"
+         type="button" data-bs-toggle="collapse" data-bs-target="#firstPReadMore" aria-expanded="false"
+         aria-controls="firstPReadMore" id="readMoreBtn">Read more &darr;</button>
+      <span class="collapse" id="firstPReadMore">
+         <span class="d-block mt-2">
+            Accordingly, the tool allows you to see how many bitcoin you would have needed to have historically for each
+            of those wealth levels (or for your own inputted target levels), and then it also shows you how many bitcoin
+            you need to reach financial independence at each of those levels within the coming years or for you to
+            customize your own target annual budget level and you can project out up to 60 years.
+         </span>
+         <span class="d-block mt-2">
+            The tool also helps you to determine the Bitcoin stash required to fund your life, taking into account
+            inflation, withdrawal rates, and to change the variables for the 4% and 10% projections with 3 options of
+            long-term price prediction models and two options on presumptions of how the BTC spot price compares with
+            the 200-WMA - with a cycling premium or a flat line 30% premium.
+         </span>
+         <span class="d-block mt-2">
+            If you want to dive specifically into time-based sustainable withdrawal projections, you can go to the
+            <a href="withdrawal-strategy" title="JJG Sustainable Withdrawal Strategy" class="fw-semibold">JJG
+               Sustainable Withdrawal Strategy</a> tool to look at historical projected withdrawal outcomes and to
+            also look at current recommended withdrawal rates based on both BTC stash size and how conservative,
+            moderate or aggressive you want to be with your withdrawal projections.
+         </span>
+      </span>
    </p>
+   <script>
+      document.addEventListener('DOMContentLoaded', () => {
+         const readMoreEl = document.getElementById('firstPReadMore');
+         const readMoreBtn = document.getElementById('readMoreBtn');
+         if (readMoreEl && readMoreBtn) {
+            readMoreEl.addEventListener('show.bs.collapse', () => {
+               readMoreBtn.innerHTML = 'Read less &uarr;';
+            });
+            readMoreEl.addEventListener('hide.bs.collapse', () => {
+               readMoreBtn.innerHTML = 'Read more &darr;';
+            });
+         }
+      });
+   </script>
 
    <!-- Summary Cards for Today (rendered by JS) -->
    <p class="section-label mt-5 mb-3">Today's Overview</p>
@@ -57,43 +99,43 @@
    <script>
       const SUMMARY_CARDS = [
          {
-            label:    'Bitcoin Price',
-            valueId:  'liveSpotPrice',
-            color:    'text-body',
+            label: 'Bitcoin Price',
+            valueId: 'liveSpotPrice',
+            color: 'text-body',
             footer: {
-               label:   'Current 200-WMA',
+               label: 'Current 200-WMA',
                labelId: 'live200WMA',
-               sub:     'Current 200-WMA',
+               sub: 'Current 200-WMA',
             },
          },
          {
-            label:    '10% Withdrawal Rate',
-            valueId:  'todayFU10',
-            color:    'text-success',
+            label: '10% Withdrawal Rate',
+            valueId: 'todayFU10',
+            color: 'text-success',
             footer: {
-               label:   'Target Portfolio: $800,000',
+               label: 'Target Portfolio: $800,000',
                labelId: 'todayFU10Desc',
-               sub:     'Valued at 200-WMA',
+               sub: 'Valued at 200-WMA',
             },
          },
          {
-            label:    '4% Withdrawal Rate',
-            valueId:  'todayFU4',
-            color:    'text-info',
+            label: '4% Withdrawal Rate',
+            valueId: 'todayFU4',
+            color: 'text-info',
             footer: {
-               label:   'Target Portfolio: $2,000,000',
+               label: 'Target Portfolio: $2,000,000',
                labelId: 'todayFU4Desc',
-               sub:     'Valued at 200-WMA',
+               sub: 'Valued at 200-WMA',
             },
          },
          {
-            label:    'Filthy-Rich Status',
-            valueId:  'todayFR',
-            color:    'text-purple',
+            label: 'Filthy-Rich Status',
+            valueId: 'todayFR',
+            color: 'text-purple',
             footer: {
-               label:   'Fixed Target: $100,000,000',
+               label: 'Fixed Target: $100,000,000',
                labelId: 'todayFRDesc',
-               sub:     'Valued at 200-WMA',
+               sub: 'Valued at 200-WMA',
             },
          },
       ];
@@ -125,15 +167,17 @@
       <div class="col-lg-4 pe-lg-4 px-0">
          <div class="bg-body-tertiary rounded-4 p-4 shadow-sm">
             <h4 class="h5 mb-4 section-label">Calculation Controls</h4>
-            
+
             <!-- Budget Input -->
             <div class="mb-4">
                <label for="annualBudget" class="form-label fw-semibold">Target Annual Budget (USD)</label>
                <div class="input-group mb-2">
                   <span class="input-group-text bg-body-secondary border-0">$</span>
-                  <input type="number" class="form-control font-monospace border-0 bg-body-secondary" id="annualBudget" value="80000" min="1000" step="5000">
+                  <input type="number" class="form-control font-monospace border-0 bg-body-secondary" id="annualBudget"
+                     value="80000" min="1000" step="5000">
                </div>
-               <input type="range" class="form-range" id="annualBudgetRange" min="1000" max="1001000" step="5000" value="80000">
+               <input type="range" class="form-range" id="annualBudgetRange" min="1000" max="1001000" step="5000"
+                  value="80000">
                <div class="form-text small">Desired annual nominal purchasing power target (today's dollars).</div>
             </div>
 
@@ -141,7 +185,8 @@
             <div class="mb-4">
                <label for="inflationRate" class="form-label fw-semibold">Predicted Inflation Rate (%)</label>
                <div class="input-group mb-2">
-                  <input type="number" class="form-control font-monospace border-0 bg-body-secondary" id="inflationRate" value="3.0" min="0" max="25" step="0.1">
+                  <input type="number" class="form-control font-monospace border-0 bg-body-secondary" id="inflationRate"
+                     value="3.0" min="0" max="25" step="0.1">
                   <span class="input-group-text bg-body-secondary border-0">%</span>
                </div>
                <input type="range" class="form-range" id="inflationRateRange" min="0" max="15" step="0.1" value="3.0">
@@ -152,7 +197,8 @@
             <div class="mb-4">
                <label for="horizonYears" class="form-label fw-semibold">Projection Horizon</label>
                <div class="input-group mb-2">
-                  <input type="number" class="form-control font-monospace border-0 bg-body-secondary" id="horizonYears" value="15" min="10" max="60" step="1">
+                  <input type="number" class="form-control font-monospace border-0 bg-body-secondary" id="horizonYears"
+                     value="15" min="10" max="60" step="1">
                   <span class="input-group-text bg-body-secondary border-0">Years</span>
                </div>
                <input type="range" class="form-range" id="horizonYearsRange" min="10" max="60" step="1" value="10">
@@ -174,7 +220,7 @@
             <div class="mb-3">
                <label for="spotPremiumSelect" class="form-label fw-semibold">Future Spot Price Premium</label>
                <select class="form-select border-0 bg-body-secondary rounded-3" id="spotPremiumSelect">
-                  <option value="fixed" >Fixed 30% Premium above 200WMA</option>
+                  <option value="fixed">Fixed 30% Premium above 200WMA</option>
                   <option value="cyclical" selected>Cyclical (-30% bottom / 102% top)</option>
                </select>
                <div class="form-text small">Assumed spot price relation to the predicted 200WMA.</div>
@@ -187,20 +233,28 @@
          <!-- Tabbed Navigation: Charts / Table -->
          <ul class="nav nav-tabs mb-0" id="mainViewTabs" role="tablist">
             <li class="nav-item" role="presentation">
-               <button class="nav-link active text-body" id="charts-view-tab" data-bs-toggle="tab" data-bs-target="#chartsViewPane" type="button" role="tab" aria-controls="chartsViewPane" aria-selected="true">
+               <button class="nav-link active text-body" id="charts-view-tab" data-bs-toggle="tab"
+                  data-bs-target="#chartsViewPane" type="button" role="tab" aria-controls="chartsViewPane"
+                  aria-selected="true">
                   CHARTS
                </button>
             </li>
             <li class="nav-item" role="presentation">
-               <button class="nav-link text-body" id="table-view-tab" data-bs-toggle="tab" data-bs-target="#tableViewPane" type="button" role="tab" aria-controls="tableViewPane" aria-selected="false">
-                 DATA TABLE
+               <button class="nav-link text-body" id="table-view-tab" data-bs-toggle="tab"
+                  data-bs-target="#tableViewPane" type="button" role="tab" aria-controls="tableViewPane"
+                  aria-selected="false">
+                  DATA TABLE
                </button>
             </li>
             <li class="ms-auto d-flex align-items-end">
-               <button class="btn btn-sm btn-secondary mb-1" onclick="exportTableToCSV()" title="Export projections to CSV">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-download me-1" viewBox="0 0 16 16">
-                     <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
-                     <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+               <button class="btn btn-sm btn-secondary mb-1" onclick="exportTableToCSV()"
+                  title="Export projections to CSV">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                     class="bi bi-download me-1" viewBox="0 0 16 16">
+                     <path
+                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                     <path
+                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
                   </svg>CSV
                </button>
             </li>
@@ -208,36 +262,48 @@
 
          <div class="tab-content bg-body-tertiary rounded-bottom-4 shadow-sm p-4 border-top-0" id="mainViewTabsContent">
             <!-- Charts Tab Pane -->
-            <div class="tab-pane fade show active" id="chartsViewPane" role="tabpanel" aria-labelledby="charts-view-tab">
+            <div class="tab-pane fade show active" id="chartsViewPane" role="tabpanel"
+               aria-labelledby="charts-view-tab">
                <!-- Sub-tabs for chart types -->
                <ul class="nav nav-pills mb-3 justify-content-end" id="chartTabs" role="tablist">
                   <li class="nav-item" role="presentation">
-                     <button class="nav-link active me-2" id="price-tab" data-bs-toggle="pill" data-bs-target="#priceChartContainer" type="button" role="tab" aria-controls="priceChartContainer" aria-selected="true">
+                     <button class="nav-link active me-2" id="price-tab" data-bs-toggle="pill"
+                        data-bs-target="#priceChartContainer" type="button" role="tab"
+                        aria-controls="priceChartContainer" aria-selected="true">
                         Price Projection
                      </button>
                   </li>
                   <li class="nav-item" role="presentation">
-                     <button class="nav-link" id="coins-tab" data-bs-toggle="pill" data-bs-target="#coinsChartContainer" type="button" role="tab" aria-controls="coinsChartContainer" aria-selected="false">
+                     <button class="nav-link" id="coins-tab" data-bs-toggle="pill" data-bs-target="#coinsChartContainer"
+                        type="button" role="tab" aria-controls="coinsChartContainer" aria-selected="false">
                         Coins Needed
                      </button>
                   </li>
                </ul>
-               
+
                <div class="tab-content" id="chartTabsContent">
                   <!-- Price Chart Tab -->
-                  <div class="tab-pane fade show active" id="priceChartContainer" role="tabpanel" aria-labelledby="price-tab">
+                  <div class="tab-pane fade show active" id="priceChartContainer" role="tabpanel"
+                     aria-labelledby="price-tab">
                      <h5 class="text-center mb-2">Bitcoin Price & 200WMA Predictions</h5>
                      <div class="row justify-content-between mb-2">
                         <div class="col-auto">
-                           <span class="small border-1 px-2 border-end" onClick="priceChartPeriod(-30)"><a href="javascript:void(0);" class="pointer">1M</a></span>
-                           <span class="small border-1 px-2 border-end" onClick="priceChartPeriod(-180)"><a href="javascript:void(0);" class="pointer">6M</a></span>
-                           <span class="small border-1 px-2 border-end" onClick="priceChartPeriod(-365)"><a href="javascript:void(0);" class="pointer">1Y</a></span>
-                           <span class="small border-1 px-2 border-end" onClick="priceChartPeriod(-1825)"><a href="javascript:void(0);" class="pointer">5Y</a></span>
-                           <span class="small border-1 px-2 border-end" onClick="priceChartPeriod(-3650)"><a href="javascript:void(0);" class="pointer">10Y</a></span>
-                           <span class="small border-1 px-2" onClick="priceChartPeriod()"><a href="javascript:void(0);" class="pointer link-secondary border-bottom border-3">ALL</a></span>
+                           <span class="small border-1 px-2 border-end" onClick="priceChartPeriod(-30)"><a
+                                 href="javascript:void(0);" class="pointer">1M</a></span>
+                           <span class="small border-1 px-2 border-end" onClick="priceChartPeriod(-180)"><a
+                                 href="javascript:void(0);" class="pointer">6M</a></span>
+                           <span class="small border-1 px-2 border-end" onClick="priceChartPeriod(-365)"><a
+                                 href="javascript:void(0);" class="pointer">1Y</a></span>
+                           <span class="small border-1 px-2 border-end" onClick="priceChartPeriod(-1825)"><a
+                                 href="javascript:void(0);" class="pointer">5Y</a></span>
+                           <span class="small border-1 px-2 border-end" onClick="priceChartPeriod(-3650)"><a
+                                 href="javascript:void(0);" class="pointer">10Y</a></span>
+                           <span class="small border-1 px-2" onClick="priceChartPeriod()"><a href="javascript:void(0);"
+                                 class="pointer link-secondary border-bottom border-3">ALL</a></span>
                         </div>
                         <div class="col-auto form-check gx-1">
-                           <input class="form-check-input" type="checkbox" checked id="linLog" onchange="togglePriceLogScale();">
+                           <input class="form-check-input" type="checkbox" checked id="linLog"
+                              onchange="togglePriceLogScale();">
                            <label class="form-check-label small text-body-emphasis" for="linLog">
                               Logarithmic scale
                            </label>
@@ -300,21 +366,33 @@
          <div class="col-lg-6">
             <h2 class="h5 fw-bold mb-3">What is <span class="text-secondary">"Fuck You Status"?</span></h2>
             <p class="mb-3">
-               In personal finance, "Fuck You Status" is reaching a wealth status in which you are able to live comfortably at your targeted income level without being dependent on employment or external funding.
-               <div class="text-muted">This level is within the election of the bitcoiner.  The amount could be replacing some portion of your current income level, or it could be replacing your actual income level or multiples of your current income level or it could be some other self-chosen income level that you would like to reach so that you don't have to work any more or rely on external funding and perhaps you would like to live a certain higher standard of living as compared with your current one.</div>
+               In personal finance, "Fuck You Status" is reaching a wealth status in which you are able to live
+               comfortably at your targeted income level without being dependent on employment or external funding.
+            <div class="text-muted">This level is within the election of the bitcoiner. The amount could be replacing
+               some portion of your current income level, or it could be replacing your actual income level or multiples
+               of your current income level or it could be some other self-chosen income level that you would like to
+               reach so that you don't have to work any more or rely on external funding and perhaps you would like to
+               live a certain higher standard of living as compared with your current one.</div>
             </p>
             <p>
-               By incorporating the <strong>200-week moving average (200WMA)</strong> as a valuation anchor, we insulate our assets from Bitcoin's high volatility. Because the 200WMA has historically acted as a reliable macro-cycle bottom, drawing withdrawals against the 200WMA valuation provides a highly sustainable long-term budget.
+               By incorporating the <strong>200-week moving average (200WMA)</strong> as a valuation anchor, we insulate
+               our assets from Bitcoin's high volatility. Because the 200WMA has historically acted as a reliable
+               macro-cycle bottom, drawing withdrawals against the 200WMA valuation provides a highly sustainable
+               long-term budget.
             </p>
          </div>
-         
+
          <div class="col-lg-6">
             <h5 class="h5 fw-bold mb-3">Inflation and Purchasing Power</h5>
             <p>
-               If you require a $80,000 budget in today's dollars, a constant 3.0% annual inflation rate means that in 10 years, you will need <strong>$107,513</strong> nominal dollars, and in 20 years, you will need <strong>$144,489</strong> nominal dollars to purchase the same goods.
+               If you require a $80,000 budget in today's dollars, a constant 3.0% annual inflation rate means that in
+               10 years, you will need <strong>$107,513</strong> nominal dollars, and in 20 years, you will need
+               <strong>$144,489</strong> nominal dollars to purchase the same goods.
             </p>
             <p>
-               This tool adjusts your required nominal portfolios dynamically. Consequently, if Bitcoin's price appreciation outpaces inflation, the absolute number of Bitcoins you need to hold decreases dramatically over time.
+               This tool adjusts your required nominal portfolios dynamically. Consequently, if Bitcoin's price
+               appreciation outpaces inflation, the absolute number of Bitcoins you need to hold decreases dramatically
+               over time.
             </p>
          </div>
       </div>
@@ -329,29 +407,39 @@
          <div class="col-lg-6">
             <h2 class="h5 fw-bold mb-3">200WMA <span class="text-secondary">Semi-Annual Compounding</span></h2>
             <p>
-               The 200-week moving average (200WMA) is projected forward using a <strong>semi-annual compounding</strong> model. Starting from the last known historical 200WMA value, each 6-month period applies a percentage gain:
+               The 200-week moving average (200WMA) is projected forward using a <strong>semi-annual
+                  compounding</strong> model. Starting from the last known historical 200WMA value, each 6-month period
+               applies a percentage gain:
             </p>
             <div class="bg-body-secondary rounded-3 p-3 font-monospace small mb-3">
                WMA<sub>n+1</sub> = WMA<sub>n</sub> &times; (1 + g<sub>n</sub> / 100)
             </div>
             <p>
-               where <strong>g<sub>n</sub></strong> is the gain for the <em>n</em>-th semi-annual period. These gains are derived from a lookup table that reflects Bitcoin's <strong>halving-cycle dynamics</strong> — the pattern of accelerating growth in the first half of each ~4-year cycle followed by decelerating growth in the second half.
+               where <strong>g<sub>n</sub></strong> is the gain for the <em>n</em>-th semi-annual period. These gains
+               are derived from a lookup table that reflects Bitcoin's <strong>halving-cycle dynamics</strong> — the
+               pattern of accelerating growth in the first half of each ~4-year cycle followed by decelerating growth in
+               the second half.
             </p>
          </div>
 
          <div class="col-lg-6">
             <h2 class="h5 fw-bold mb-3">Halving <span class="text-secondary">Cycle Structure</span></h2>
             <p>
-               Each halving cycle spans <strong>8 semi-annual periods</strong> (~4 years). The gain table encodes this pattern: the first 4 periods carry higher growth (bullish phase), while the last 4 carry lower growth (consolidation phase). Across successive cycles, peak gains diminish — reflecting the empirical observation that each cycle's returns moderate as Bitcoin's market capitalization grows.
+               Each halving cycle spans <strong>8 semi-annual periods</strong> (~4 years). The gain table encodes this
+               pattern: the first 4 periods carry higher growth (bullish phase), while the last 4 carry lower growth
+               (consolidation phase). Across successive cycles, peak gains diminish — reflecting the empirical
+               observation that each cycle's returns moderate as Bitcoin's market capitalization grows.
             </p>
             <p>
-               Beyond the explicitly defined cycles (past 2039), gains are extrapolated by applying a <strong>20% decay factor per cycle</strong> to the last known cycle's values:
+               Beyond the explicitly defined cycles (past 2039), gains are extrapolated by applying a <strong>20% decay
+                  factor per cycle</strong> to the last known cycle's values:
             </p>
             <div class="bg-body-secondary rounded-3 p-3 font-monospace small mb-3">
                g<sub>future</sub> = g<sub>base</sub> &times; 0.8<sup>(cycle − 3)</sup>
             </div>
             <p class="text-muted small">
-               This ensures the model remains bounded and converges toward slower growth over very long horizons, consistent with eventual market maturation.
+               This ensures the model remains bounded and converges toward slower growth over very long horizons,
+               consistent with eventual market maturation.
             </p>
          </div>
       </div>
@@ -359,7 +447,8 @@
       <div class="row g-4 g-lg-5 mb-4">
          <div class="col-lg-6">
             <h2 class="h5 fw-bold mb-3">Three <span class="text-secondary">Model Variants</span></h2>
-            <p>The tool offers three prediction models, each applying a different scaling factor to the base JJG gain table:</p>
+            <p>The tool offers three prediction models, each applying a different scaling factor to the base JJG gain
+               table:</p>
             <table class="table table-sm table-borderless small mb-3">
                <thead>
                   <tr class="border-bottom">
@@ -403,13 +492,16 @@
                Spot = WMA &times; 1.30
             </div>
             <p>
-               <strong>Cyclical Premium</strong> — a sine-wave oscillation synchronized to the ~4-year halving cycle, ranging from approximately &minus;30% (cycle bottom) to +102% (cycle top):
+               <strong>Cyclical Premium</strong> — a sine-wave oscillation synchronized to the ~4-year halving cycle,
+               ranging from approximately &minus;30% (cycle bottom) to +102% (cycle top):
             </p>
             <div class="bg-body-secondary rounded-3 p-3 font-monospace small mb-3">
                Spot = WMA &times; [1.36 + 0.66 &times; sin(2&pi; &times; &phi;)]
             </div>
             <p class="text-muted small">
-               where <span class="font-monospace">&phi; = (years mod 4) / 4</span> is the normalized cycle phase. At &phi;&nbsp;=&nbsp;0.25 (cycle peak), the multiplier reaches ≈2.02; at &phi;&nbsp;=&nbsp;0.75 (cycle bottom), it drops to ≈0.70.
+               where <span class="font-monospace">&phi; = (years mod 4) / 4</span> is the normalized cycle phase. At
+               &phi;&nbsp;=&nbsp;0.25 (cycle peak), the multiplier reaches ≈2.02; at &phi;&nbsp;=&nbsp;0.75 (cycle
+               bottom), it drops to ≈0.70.
             </p>
          </div>
       </div>
@@ -418,16 +510,21 @@
          <div class="col-lg-12">
             <h2 class="h5 fw-bold mb-3">Coins Needed <span class="text-secondary">Formula</span></h2>
             <p>
-               Given a target annual budget <strong>B</strong>, a withdrawal rate <strong>r</strong>, an inflation rate <strong>i</strong>, and the projected 200WMA at year <strong>t</strong>:
+               Given a target annual budget <strong>B</strong>, a withdrawal rate <strong>r</strong>, an inflation rate
+               <strong>i</strong>, and the projected 200WMA at year <strong>t</strong>:
             </p>
             <div class="bg-body-secondary rounded-3 p-3 font-monospace small mb-3">
                BTC needed = (B / r) &times; (1 + i)<sup>t</sup> &frasl; WMA<sub>t</sub>
             </div>
             <p>
-               The numerator <span class="font-monospace">(B / r) &times; (1 + i)<sup>t</sup></span> is the inflation-adjusted portfolio target in nominal USD. Dividing by the projected 200WMA converts this to the number of Bitcoins required. As the 200WMA grows faster than inflation, the BTC needed decreases over time — this is the core insight of the model.
+               The numerator <span class="font-monospace">(B / r) &times; (1 + i)<sup>t</sup></span> is the
+               inflation-adjusted portfolio target in nominal USD. Dividing by the projected 200WMA converts this to the
+               number of Bitcoins required. As the 200WMA grows faster than inflation, the BTC needed decreases over
+               time — this is the core insight of the model.
             </p>
             <p class="text-muted small mb-0">
-               <strong>Filthy-Rich status</strong> is an exception: it uses a fixed $100,000,000 target regardless of the annual budget or inflation settings, representing a static ultra-high-net-worth benchmark.
+               <strong>Filthy-Rich status</strong> is an exception: it uses a fixed $100,000,000 target regardless of
+               the annual budget or inflation settings, representing a static ultra-high-net-worth benchmark.
             </p>
          </div>
       </div>
