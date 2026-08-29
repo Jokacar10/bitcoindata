@@ -85,7 +85,9 @@ function getJJGGain(date) {
         let cycleIdx = Math.floor(periods / 8);
         let stepInCycle = periods % 8;
         let baseCycle7 = tableGains.slice(24, 32);
-        let decay = Math.pow(0.8, cycleIdx - 3);
+        // let decay = Math.pow(0.8, cycleIdx - 3);
+        // removed decay
+        let decay = 1;
         return baseCycle7[stepInCycle] * decay;
     }
 }
@@ -308,8 +310,8 @@ function recalculate() {
         tableRowsHTML += `
             <tr class="${rowClass}">
                <td class="text-nowrap">${dateStr} ${isFuture ? '<span class="badge text-bg-primary bg-opacity-75 ms-1" style="font-size:.65em">Proj</span>' : ''}</td>
-               <td>$${(row.spot).toFixed(2).toLocaleString()}</td>
-               <td>$${(row.wma).toFixed(2).toLocaleString()}</td>
+               <td>${(row.spot).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}</td>
+               <td>${(row.wma).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}</td>
                <td>${gainPercent}</td>
                <td>${spotVs200Str}</td>
                <td class="fw-semibold text-success">${row.coins10.toLocaleString("en-US", { maximumFractionDigits: 2 })} BTC</td>
