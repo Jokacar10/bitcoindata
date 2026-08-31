@@ -332,7 +332,12 @@
       resultCard.classList.add("d-none");
       resultSuccess.classList.add("d-none");
       resultFailure.classList.add("d-none");
-      document.getElementById("shareContainer").classList.add("d-none");
+      var shareContainer = document.getElementById("shareContainer");
+      if (shareContainer) shareContainer.classList.add("d-none");
+      var shareUrlInput = document.getElementById("shareUrl");
+      var shareBbcodeInput = document.getElementById("shareBbcode");
+      if (shareUrlInput) shareUrlInput.value = "";
+      if (shareBbcodeInput) shareBbcodeInput.value = "";
    };
 
    // ─── Verify Button Handler ────────────────────────────────────────
@@ -469,30 +474,44 @@
       var payload = addr + SHARE_DELIMITER + msg + SHARE_DELIMITER + sig;
       var encrypted = CryptoJS.AES.encrypt(payload, SHARE_KEY).toString();
 
-      var shareUrl = window.location.origin + window.location.pathname + "#" + encrypted;
+      var origin = window.location.origin;
+      var pathname = window.location.pathname;
+      var shareUrl = (origin && origin !== "null" ? origin + pathname : "https://bitcoindata.science/verify-message") + "#" + encrypted;
+      var bbcode = "Verified [url=" + shareUrl + "]here[/url]";
 
       var shareContainer = document.getElementById("shareContainer");
       var shareUrlInput = document.getElementById("shareUrl");
+      var shareBbcodeInput = document.getElementById("shareBbcode");
 
-      shareUrlInput.value = shareUrl;
-      shareContainer.classList.remove("d-none");
+      if (shareUrlInput) shareUrlInput.value = shareUrl;
+      if (shareBbcodeInput) shareBbcodeInput.value = bbcode;
+      if (shareContainer) shareContainer.classList.remove("d-none");
 
-      copyShareUrl();
+      copyShareUrl("shareUrl", "copyShareBtn");
    };
 
-   window.copyShareUrl = function () {
-      var shareUrlInput = document.getElementById("shareUrl");
-      var copyBtn = document.getElementById("copyShareBtn");
+   window.copyShareUrl = function (inputId, btnId) {
+      inputId = inputId || "shareUrl";
+      btnId = btnId || "copyShareBtn";
+      var input = document.getElementById(inputId);
+      var btn = document.getElementById(btnId);
+      if (!input) return;
 
-      navigator.clipboard.writeText(shareUrlInput.value).then(function () {
-         copyBtn.textContent = "Copied!";
-         copyBtn.classList.remove("btn-outline-secondary");
-         copyBtn.classList.add("btn-success");
-         setTimeout(function () {
-            copyBtn.textContent = "Copy";
-            copyBtn.classList.remove("btn-success");
-            copyBtn.classList.add("btn-outline-secondary");
-         }, 1800);
+      navigator.clipboard.writeText(input.value).then(function () {
+         if (btn) {
+            var origText = btn.textContent;
+            btn.textContent = "Copied!";
+            var wasPrimary = btn.classList.contains("btn-primary");
+            btn.classList.remove("btn-primary", "btn-secondary");
+            btn.classList.add("btn-success");
+            setTimeout(function () {
+               btn.textContent = origText;
+               btn.classList.remove("btn-success");
+               btn.classList.add(wasPrimary ? "btn-primary" : "btn-secondary");
+            }, 1800);
+         }
+      }).catch(function (err) {
+         console.warn("Clipboard copy error:", err);
       });
    };
 
