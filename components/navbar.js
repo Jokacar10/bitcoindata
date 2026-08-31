@@ -2,18 +2,32 @@
 
 const menuItems = [
   {
-    Name: "Address Balance",
-    link: "bitcoin-balance-check",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" height=23  fill="currentColor"   viewBox="0 0 16 16">
-      <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
+    Name: "Bitcoin Tools",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" height=23 fill="currentColor" viewBox="0 0 16 16">
+      <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242l-.914.305-.968-.968 2.617-2.654A3.003 3.003 0 0 0 16 3a3 3 0 1 0-5.878.851l-2.654 2.617L4.793 3.793a1 1 0 0 1-.293-.708v-.07a1 1 0 0 0-.419-.815zm-.405 13.405a1.5 1.5 0 1 1 0-2.121 1.5 1.5 0 0 1 0 2.12zm9.165-10.84a1.5 1.5 0 1 1 2.12 0 1.5 1.5 0 0 1-2.12 0z"/>
     </svg>`,
-  },
-  {
-    Name: "Unit Converter",
-    link: "bitcoin-units-converter",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" height=23 fill="currentColor"   viewBox="0 0 16 16" >
-      <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z" />
-    </svg>`,
+    isDropdown: true,
+    items: [
+      {
+        Name: "Balance Checker",
+        link: "bitcoin-balance-check",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" height=23 fill="currentColor" viewBox="0 0 16 16">
+          <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
+        </svg>`,
+      },
+      {
+        Name: "Unit Converter",
+        link: "bitcoin-units-converter",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" height=23 fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z" />
+        </svg>`,
+      },
+      {
+        Name: "Verify Message",
+        link: "verify-message",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check-icon lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`,
+      }
+    ]
   },
   {
     Name: "Price API",
