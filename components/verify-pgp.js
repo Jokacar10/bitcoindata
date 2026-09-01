@@ -111,6 +111,9 @@
       pgpResultCard.classList.add("d-none");
       pgpResultSuccess.classList.add("d-none");
       pgpResultFailure.classList.add("d-none");
+
+      var shareContainer = document.getElementById("pgpShareContainer");
+      if (shareContainer) shareContainer.classList.add("d-none");
    };
 
    // ─── Load Sample Data ────────────────────────────────────────────
@@ -462,5 +465,169 @@
          });
       }
    };
+
+   // ─── Share (CryptoJS AES encrypted URL) ────────────────────────────
+   var SHARE_KEY = "pgp-verify";
+
+   window.pgpSaveAndShare = function () {
+      var mode = getActiveMode();
+      var payloadObj = { m: mode === 'clearsign' ? 'c' : 'd' };
+
+      if (mode === 'clearsign') {
+         var pubKey = (pgpPublicKey.value || "").trim();
+         var block = (pgpClearsignedBlock.value || "").trim();
+
+         if (!pubKey || pubKey === "-----BEGIN PGP PUBLIC KEY BLOCK-----") {
+            alert("Please paste the signer's public key before sharing.");
+            pgpPublicKey.focus();
+            return;
+         }
+         if (!block || block === "-----BEGIN PGP SIGNED MESSAGE-----") {
+            alert("Please paste the PGP clearsigned message before sharing.");
+            pgpClearsignedBlock.focus();
+            return;
+         }
+
+         payloadObj.pk = pubKey;
+         payloadObj.b = block;
+      } else {
+         var pubKey = (pgpPublicKeyDetached.value || "").trim();
+         var msg = pgpDetachedMessage.value || "";
+         var sig = (pgpDetachedSignature.value || "").trim();
+
+         if (!pubKey || pubKey === "-----BEGIN PGP PUBLIC KEY BLOCK-----") {
+            alert("Please paste the signer's public key before sharing.");
+            pgpPublicKeyDetached.focus();
+            return;
+         }
+         if (!msg) {
+            alert("Please enter the original message before sharing.");
+            pgpDetachedMessage.focus();
+            return;
+         }
+         if (!sig || sig === "-----BEGIN PGP SIGNATURE-----") {
+            alert("Please paste the detached PGP signature before sharing.");
+            pgpDetachedSignature.focus();
+            return;
+         }
+
+         payloadObj.pk = pubKey;
+         payloadObj.msg = msg;
+         payloadObj.sig = sig;
+      }
+
+      if (typeof CryptoJS === 'undefined') {
+         alert("CryptoJS library is not ready yet. Please wait a moment and try again.");
+         return;
+      }
+
+      var encrypted = CryptoJS.AES.encrypt(JSON.stringify(payloadObj), SHARE_KEY).toString();
+      var origin = window.location.origin;
+      var pathname = window.location.pathname;
+      var shareUrl = (origin && origin !== "null" ? origin + pathname : "https://bitcoindata.science/verify-pgp") + "#" + encrypted;
+      var bbcode = "Verified [url=" + shareUrl + "]here[/url]";
+
+      var shareContainer = document.getElementById("pgpShareContainer");
+      var shareUrlInput = document.getElementById("pgpShareUrl");
+      var shareBbcodeInput = document.getElementById("pgpShareBbcode");
+
+      if (shareUrlInput) shareUrlInput.value = shareUrl;
+      if (shareBbcodeInput) shareBbcodeInput.value = bbcode;
+      if (shareContainer) shareContainer.classList.remove("d-none");
+
+      pgpCopyShareUrl("pgpShareUrl", "pgpCopyShareBtn");
+   };
+
+   window.pgpCopyShareUrl = function (inputId, btnId) {
+      inputId = inputId || "pgpShareUrl";
+      btnId = btnId || "pgpCopyShareBtn";
+      var input = document.getElementById(inputId);
+      var btn = document.getElementById(btnId);
+      if (!input) return;
+
+      navigator.clipboard.writeText(input.value).then(function () {
+         if (btn) {
+            var origText = btn.textContent;
+            btn.textContent = "Copied!";
+            var wasPrimary = btn.classList.contains("btn-primary");
+            btn.classList.remove("btn-primary", "btn-secondary");
+            btn.classList.add("btn-success");
+            setTimeout(function () {
+               btn.textContent = origText;
+               btn.classList.remove("btn-success");
+               btn.classList.add(wasPrimary ? "btn-primary" : "btn-secondary");
+            }, 1800);
+         }
+      }).catch(function (err) {
+         console.warn("Clipboard copy error:", err);
+      });
+   };
+
+   // ─── Load from URL Hash / Encrypted Payload ────────────────────────
+   function tryLoadEncryptedPgp(hash) {
+      if (!hash || typeof CryptoJS === 'undefined') return false;
+      try {
+         var cleanHash = decodeURIComponent(hash);
+         var decrypted = CryptoJS.AES.decrypt(cleanHash, SHARE_KEY);
+         var plaintext = decrypted.toString(CryptoJS.enc.Utf8);
+         if (!plaintext) {
+            decrypted = CryptoJS.AES.decrypt(hash, SHARE_KEY);
+            plaintext = decrypted.toString(CryptoJS.enc.Utf8);
+         }
+         if (!plaintext) return false;
+
+         var data = JSON.parse(plaintext);
+         if (!data || !data.m) return false;
+
+         if (data.m === 'c' || data.m === 'clearsign') {
+            if (data.pk) pgpPublicKey.value = data.pk;
+            if (data.b) pgpClearsignedBlock.value = data.b;
+
+            var clearsignTab = document.getElementById('pgp-clearsign-tab');
+            if (clearsignTab && !clearsignTab.classList.contains('active')) {
+               var tab = new bootstrap.Tab(clearsignTab);
+               tab.show();
+            }
+            return true;
+         } else if (data.m === 'd' || data.m === 'detached') {
+            if (data.pk) pgpPublicKeyDetached.value = data.pk;
+            if (data.msg) pgpDetachedMessage.value = data.msg;
+            if (data.sig) pgpDetachedSignature.value = data.sig;
+
+            var detachedTab = document.getElementById('pgp-detached-tab');
+            if (detachedTab && !detachedTab.classList.contains('active')) {
+               var tab = new bootstrap.Tab(detachedTab);
+               tab.show();
+            }
+            return true;
+         }
+      } catch (e) { }
+      return false;
+   }
+
+   window.addEventListener('DOMContentLoaded', function () {
+      var hash = window.location.hash ? window.location.hash.substring(1) : "";
+      if (!hash && window.location.search) {
+         hash = window.location.search.substring(1);
+      }
+
+      if (hash) {
+         var loaded = tryLoadEncryptedPgp(hash);
+         if (loaded) {
+            setTimeout(function () {
+               var mode = getActiveMode();
+               if (mode === 'clearsign') {
+                  if (pgpPublicKey.value.trim() && pgpClearsignedBlock.value.trim()) {
+                     pgpHandleVerify();
+                  }
+               } else {
+                  if (pgpPublicKeyDetached.value.trim() && pgpDetachedSignature.value.trim()) {
+                     pgpHandleVerify();
+                  }
+               }
+            }, 150);
+         }
+      }
+   });
 
 })();

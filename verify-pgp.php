@@ -468,6 +468,56 @@
                         </svg>
                      </div>
                   </button>
+
+                  <!-- Share button -->
+                  <button type="button"
+                     class="btn btn-secondary btn-lg fs-6 px-4 rounded-3 d-inline-flex align-items-center gap-2"
+                     id="pgpShareBtn" onclick="pgpSaveAndShare()">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-share" viewBox="0 0 16 16">
+                        <path
+                           d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
+                     </svg>
+                     Share
+                  </button>
+
+                  <!-- Share options container -->
+                  <div id="pgpShareContainer" class="w-100 mt-2 d-none">
+                     <div class="p-3 rounded-4 bg-body-secondary border border-secondary border-opacity-10">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                           <span class="fw-semibold small text-body-secondary">Share Verification</span>
+                           <button type="button" class="btn-close btn-close-sm"
+                              onclick="document.getElementById('pgpShareContainer').classList.add('d-none')"
+                              aria-label="Close"></button>
+                        </div>
+
+                        <!-- Option 1: Permalink -->
+                        <div class="mb-3">
+                           <label for="pgpShareUrl"
+                              class="text-body-secondary small fw-medium mb-1 d-block">Permalink</label>
+                           <div class="input-group">
+                              <input type="text" id="pgpShareUrl"
+                                 class="form-control form-control-sm font-monospace-sm bg-body border-0" readonly
+                                 onclick="this.select()">
+                              <button class="btn btn-primary btn-sm px-3" type="button" id="pgpCopyShareBtn"
+                                 onclick="pgpCopyShareUrl('pgpShareUrl', 'pgpCopyShareBtn')">Copy Link</button>
+                           </div>
+                        </div>
+
+                        <!-- Option 2: BBCode for Forums -->
+                        <div>
+                           <label for="pgpShareBbcode" class="text-body-secondary small fw-medium mb-1 d-block">BBCode
+                              (Forums)</label>
+                           <div class="input-group">
+                              <input type="text" id="pgpShareBbcode"
+                                 class="form-control form-control-sm font-monospace-sm bg-body border-0" readonly
+                                 onclick="this.select()">
+                              <button class="btn btn-secondary btn-sm px-3" type="button" id="pgpCopyBbcodeBtn"
+                                 onclick="pgpCopyShareUrl('pgpShareBbcode', 'pgpCopyBbcodeBtn')">Copy BBCode</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
                </div>
 
             </div>
@@ -698,6 +748,27 @@
                </div>
             </div>
 
+            <div class="accordion-item bg-transparent py-2">
+               <h2 class="accordion-header" id="pgpFaq5">
+                  <button class="accordion-button collapsed bg-transparent shadow-none fw-semibold fs-6" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#pgpCollapse5" aria-expanded="false"
+                     aria-controls="pgpCollapse5">
+                     Can I use to verify Letters of Guarantee from crypto services?
+                  </button>
+               </h2>
+               <div id="pgpCollapse5" class="accordion-collapse collapse" aria-labelledby="pgpFaq5"
+                  data-bs-parent="#pgpFaqAccordion">
+                  <div class="accordion-body text-body-secondary small pt-1">
+                     Yes. To verify a letter of guarantee you simply need the public key of the issuer and the
+                     letter of guarantee itself. Copy-paste them in the fields above and click on "Verify". The public
+                     key
+                     is usually found on the website of the issuer, under a section called "PGP key", "Public key"
+                     or something similar.
+                     </ul>
+                  </div>
+               </div>
+            </div>
+
          </div>
       </article>
 
@@ -707,6 +778,7 @@
    <footer-component></footer-component>
 
    <script src="modules/openpgp.min.js"></script>
+   <script src="modules/crypto-js.min.js"></script>
    <script src="components/verify-pgp.js"></script>
 </body>
 
